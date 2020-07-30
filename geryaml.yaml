@@ -67,7 +67,7 @@ objects:
         name: ${APP_NAME}
       spec:
         containers:
-        - image: ${APP_NAME}
+        - image: image-registry.openshift-image-registry.svc:5000/mapit/gerymal
         name: ${APP_NAME}
         ports:
         - containerPort: 8080
