@@ -1,3 +1,8 @@
+You can deploy MapIt on OpenShift using the provided template:
+
+oc new-app -f https://raw.githubusercontent.com/gditrani269/s2i-dotnetcore-ex/master/geryaml.yaml
+
+
 [[s2i-aspnet-example]]
 = .NET Core Sample App for OpenShift
 
