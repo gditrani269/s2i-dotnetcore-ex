@@ -1,0 +1,24 @@
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  name: dotnetapp-build4
+spec:
+  strategy:
+    type: JenkinsPipeline
+    jenkinsPipelineStrategy:
+      jenkinsfile: |-
+        node {
+          stage('delete prev ver') {
+            sh "oc delete all --selector app=exampleapp"
+          }
+          stage('publish') {
+            dir('app') {
+              sh 'oc new-app --name=exampleapp dotnet:2.2~https://github.com/gditrani269/s2i-dotnetcore-ex.git --build-env DOTNET_STARTUP_PROJECT=app'
+            }
+          }
+          stage('create route') {
+            dir('app') {
+              sh 'oc expose svc/exampleapp'
+            }
+          }
+        }   
