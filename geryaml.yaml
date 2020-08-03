@@ -12,6 +12,7 @@ objects:
   metadata:
     name: ${APP_NAME}
     labels:
+      app: ${APP_NAME}
       application: ${APP_NAME}
   spec:
     tags:
