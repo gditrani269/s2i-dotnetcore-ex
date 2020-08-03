@@ -1,0 +1,20 @@
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  name: ger-build
+spec:
+  strategy:
+    type: JenkinsPipeline
+    jenkinsPipelineStrategy:
+      jenkinsfile: |-
+        node {
+          stage('delete prev ver') {
+            sh "oc delete all --selector app=ger"
+            sh "oc delete all --selector application=ger"
+          }
+          stage('publish') {
+            dir('app') {
+              sh 'oc new-app -f https://raw.githubusercontent.com/gditrani269/s2i-dotnetcore-ex/master/geryaml.yaml'
+            }
+          }
+        }   
