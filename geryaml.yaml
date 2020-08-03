@@ -22,6 +22,7 @@ objects:
   metadata:
     name: ${APP_NAME}
     labels:
+      app: ${APP_NAME}
       application: ${APP_NAME}
   spec:
     output:
@@ -53,6 +54,7 @@ objects:
   metadata:
     name: ${APP_NAME}
     labels:
+      app: ${APP_NAME}
       application: ${APP_NAME}
   spec:
     replicas: 1
@@ -124,6 +126,7 @@ objects:
   kind: Route
   metadata:
     labels:
+      app: ${APP_NAME}
       application: ${APP_NAME}
     name: ${APP_NAME}
   spec:
