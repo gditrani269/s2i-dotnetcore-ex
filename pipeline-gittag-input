@@ -1,0 +1,32 @@
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  name: pipein-build2
+spec:
+  strategy:
+    type: JenkinsPipeline
+    jenkinsPipelineStrategy:
+      jenkinsfile: |-
+        node {
+          stage('holis') {
+            sh "echo test 1"
+          }
+          stage('input ') {
+            sh 'echo hola'
+            script {
+                 sh 'rm -r .git'
+                 sh 'git init'
+                 sh 'git remote add -f origin https://github.com/gditrani269/WebApplication1.git > nul'
+                 sh 'git tag'
+                 def userInput = input(
+                 id: 'userInput', message: 'Enter path of test reports:?', 
+                 parameters: [
+                 [$class: 'TextParameterDefinition', defaultValue: 'None', description: 'Path of config file', name: 'Config'],
+                 [$class: 'TextParameterDefinition', defaultValue: 'None', description: 'Test Info file', name: 'Test']
+                ])
+                echo "IQA Sheet Path: "+userInput['Config']
+                echo "Test Info file path: "+userInput['Test']
+                sh 'oc status'
+            }
+          }
+        }   
