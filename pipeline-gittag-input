@@ -17,7 +17,8 @@ spec:
                  sh 'rm -r .git'
                  sh 'git init'
                  sh 'git remote add -f origin https://github.com/gditrani269/WebApplication1.git > nul'
-                 sh 'git tag'
+                 sh 'git tag > tags.txt'
+                 sh 'cat tags.txt'
                  def userInput = input(
                  id: 'userInput', message: 'Enter path of test reports:?', 
                  parameters: [
@@ -27,6 +28,22 @@ spec:
                 echo "IQA Sheet Path: "+userInput['Config']
                 echo "Test Info file path: "+userInput['Test']
                 sh 'oc status'
+                def USER_INPUT = input(
+                    message: 'User input required - Some Yes or No question?',
+                    parameters: [
+                            [$class: 'ChoiceParameterDefinition',
+                             choices: ['no','yes',userInput['Config']].join('\n'),
+                             name: 'input',
+                             description: 'Menu - select box option']
+                    ])
+                echo "The answer is: ${USER_INPUT}"
+                if( "${USER_INPUT}" == "yes"){
+                 //do something
+                 echo "dijo si"
+                } else {
+                 //do something else
+                 echo "dijo no"
+                }
             }
           }
-        }   
+        }
