@@ -14,7 +14,12 @@ spec:
           stage('input ') {
             sh 'echo hola'
             script {
-                 sh 'rm -r .git'
+                env.WORKSPACE = pwd()
+                def direc = fileExists "${env.WORKSPACE}/.git"
+                if(direc){
+                  println("existe .git")
+                  sh 'rm -r .git'
+                }
                  sh 'git init'
                  sh 'git remote add -f origin https://github.com/gditrani269/WebApplication1.git > nul'
                  sh 'git tag > tags.txt'
@@ -28,11 +33,16 @@ spec:
                 echo "IQA Sheet Path: "+userInput['Config']
                 echo "Test Info file path: "+userInput['Test']
                 sh 'oc status'
+                def version = readFile "${env.WORKSPACE}/tags.txt"
+                //println(version)
+                normalChoiceOptions = [version]
+                //println(normalChoiceOptions)
                 def USER_INPUT = input(
                     message: 'User input required - Some Yes or No question?',
                     parameters: [
                             [$class: 'ChoiceParameterDefinition',
-                             choices: ['no','yes',userInput['Config']].join('\n'),
+                             choices: normalChoiceOptions.join('\n'),
+                             //choices: ['no','yes',userInput['Config']].join('\n'),
                              name: 'input',
                              description: 'Menu - select box option']
                     ])
@@ -46,4 +56,4 @@ spec:
                 }
             }
           }
-        }
+        }   
