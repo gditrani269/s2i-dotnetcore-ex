@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Template
+labels:
+  demo: ${APP_NAME}
+metadata:
+  annotations:
+    description: template route
+  name: ${APP_NAME}
+objects:
+- apiVersion: v1
+kind: Pod
+metadata:
+  name: openshift-api-client-ger
+  namespace: test-devops-dev
+spec:
+  containers:
+  - name: openshift-api-client-ger
+    image: docker-registry.default.svc:5000/test-devops-dev/openshift-api-client-ger@sha256:0a5713708f21a9a20fa5b9f4c297bf20cfcae2012f5dcfed180f3776a045b494
+    resources:
+      limits:
+        cpu: 600m
+        memory: 1Gi
+      requests:
+        cpu: 20m
+        memory: 128Mi
